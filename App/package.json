@@ -1,0 +1,20 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Reactor analysis application ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "deploy": "gcloud app deploy"
+  },
+  "author": "Moritz Spaltenstein",
+  "license": "MIT",
+  "dependencies": {
+    "electron":"^5.0.6"
+  },
+  "dependencies": {
+    "electron": "^5.0.6",
+    "mysql": "^2.17.1"
+  }
+}

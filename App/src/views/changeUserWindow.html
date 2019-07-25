@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>NuclearLedger</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
+</head>
+
+<body>
+    <h1>
+        Change User
+    </h1>
+
+    <table class="table table-hover" id="table-hover">
+        <thead>
+            <tr>
+                <th scope="col">User ID</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-secondary user">
+                <th scope="row">User</th>
+                <td></td>
+            </tr>
+
+            <script>
+
+                //My SQL Connection and Queries
+
+                var mysql      = require('mysql');
+                var connection = mysql.createConnection({
+                host     : 'localhost',
+                user     : 'root',
+                password : 'MyNewPass1234@',
+                database: 'db_nuclear_analisys'
+                });
+
+                connection.query('select (ID_Analyst) from Analyst;', function (error, results, fields) {
+                if (error) throw error;
+                console.log('The solution is: ', results[0].ID_Analyst);
+
+                // Writting the list of tubes
+
+                    for(var i=0; i<Object.keys(results).length; i++) {
+                        document.getElementById("table-hover").insertAdjacentHTML("beforeend", '<tr class="table-secondary user" data-user-id="'+results[i].ID_Analyst+'">'+'<th scope="row">User '+results[i].ID_Analyst+'</th>'+'<td></td>'+'</tr>');
+                    }
+                    
+                });
+
+            </script>
+
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        const ipcRenderer = require('electron').ipcRenderer; 
+        let tubes;
+
+        users = document.querySelectorAll('.user');
+
+        console.log(users);
+
+        users.forEach(user => {
+            console.log(user);
+
+            user.addEventListener('click', addUser);
+        });
+
+        function addUser() {
+            let id = this.dataset.userId;
+
+            ipcRenderer.send('userclick', id);
+        }
+
+    </script>
+    <script src="../../index.js" type="text/javascript"></script>
+</body>
+
+</html>

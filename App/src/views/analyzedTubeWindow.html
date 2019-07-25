@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/analyzedTubeWindow.css">
+    
+    <script> 
+      delete module.exports
+    </script> 
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../controllers/AnalyzedTubeController.js" type="text/javascript"></script>
+    <script src="../../index.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="header-row" id="header"></div>
+
+    <div class="card">
+      <div class="Selection card-body">
+        <h4 class="card-title">Selection</h4>
+        <hr/>
+        <div class="row" id="Selection-row">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="Calibration card-body" id="Calibration-card">
+        <h4 class="card-title">Calibration</h4>
+        <hr/>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="Method card-body" id="Method-card">
+        <h4 class="card-title">Method</h4>
+        <hr/>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="Report card-body" id="Report-card">
+        <h4 class="card-title">Report</h1>
+        <hr/>
+      </div>
+    </div>
+
+    <script>
+
+      // Receiving current analyzed tube id
+
+      console.log('send request');
+      ipcRenderer.send('requestAnalyzedTubeId');
+
+      ipcRenderer.on('responseRequestAnalyzedTubeId', (e, analyzedTubeId) => {
+
+        console.log('Received response for Request Analyzed Tube Id with Id: '+analyzedTubeId);
+
+
+        //My SQL Connection and Queries
+/*
+        connection.connect(function(err) {
+          if (err) {
+              console.error('error connecting: ' + err.stack);
+              return;
+          }
+          
+          console.log('connected as id ' + connection.threadId);
+        });
+*/
+        connection.query('select Analyst.Name as Author_Name, Tube.Pos_X, Tube.Pos_Y, Tube.Length, Work.WorkDate, Calibration.Equipment as CalEquip, Analyzed_Tube.Method, Analyzed_Tube.State, Work.Description as Report from Analyst inner join Analyzed_Tube on Analyst.ID_Analyst = Analyzed_Tube.ID_Analyst_FK inner join Aquired_Tubes on Aquired_Tubes.ID_Aquired_Tubes = Analyzed_Tube.ID_Aquired_Tubes_FK inner join Tube on Tube.ID_Tube = Aquired_Tubes.ID_Tube_FK inner join Calibration on Calibration.ID_Calibration = Aquired_Tubes.ID_Calibration_FK inner join Work on Work.ID_Work = Calibration.ID_Work_FK where Analyzed_Tube.ID_Analyzed_Tube = '+analyzedTubeId+';', function (error, results, fields) {
+          if (error) throw error;
+          
+          // Writting the list of tubes
+
+          console.log(results);
+
+            $('#header').append('<div class="numberCircle">'+analyzedTubeId+'</div>');
+            $('#header').append('<div class="header-line" id="header-info">');
+              $('#header-info').append('<p class="card-text">'+results[0].Author_Name+'</p>');
+              $('#header-info').append('<p class="card-text">{'+results[0].Pos_X+','+results[0].Pos_Y+'}</p>');
+              $('#header-info').append('<p class="card-text">'+results[0].Length+'</p>');
+            $('#header').append('<div class="numberCircle-Alert">'+results[0].State+'</div>');
+
+            connection.query('select Tube.ID_Tube as TubeId from Aquired_Tubes inner join Analyzed_Tube on Analyzed_Tube.ID_Aquired_Tubes_FK = Aquired_Tubes.ID_Aquired_Tubes inner join Tube on Tube.ID_Tube = Aquired_Tubes.ID_Aquired_Tubes where Analyzed_Tube.ID_Analyzed_Tube = '+analyzedTubeId+' AND Tube.ID_Tube != '+analyzedTubeId+';', function (error2, results2, fields2) { 
+              if(error) throw error;
+
+              for(var i=0; i<Object.keys(results2).length; i++) {
+                $('#Selection-row').append('<p class="Selection-card-text">'+results2[i].TubeId+'</p>');
+              }
+
+            });
+
+            $('#Calibration-card').append('<p class="Calibration card-text">'+results[0].CalEquip+'</p>');
+
+            $('#Method-card').append('<p class="Method card-text">'+results[0].Method+'</p>');
+
+            $('#Report-card').append('<p>'+results[0].Report+'</p>');
+
+        });
+
+      });
+
+    </script>
+
+</body>
+</html>

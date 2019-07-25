@@ -1,0 +1,72 @@
+.numberCircle {
+    width: 50px;
+    line-height: 50px;
+    border-radius: 10%;
+    text-align: center;
+    font-size: 32px;
+    border: 2px solid #666;
+    margin: 3%;
+}
+
+.numberCircle-Alert {
+  background-color: green;
+  width: 50px;
+  line-height: 50px;
+  border-radius: 10%;
+  text-align: center;
+  font-size: 32px;
+  border: 2px solid #666;
+  margin: 3%;
+  color: #ccc;
+}
+
+hr {
+    display: block;
+    height: 3px;
+    border: 1;
+    border-top: 2px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.row {
+    width: 100%;
+    padding: 1em;
+    padding-bottom: 0;
+  }
+
+  .Selection-card-text{
+    width: 100px;
+    float: left;
+  }
+
+  .Description-card-text{
+    width: 100px;
+    float: left;
+    padding-bottom: 0;
+  }
+
+.Description-card-text-state {
+      padding: 0 0 1em 1em;
+  }
+
+.card-title {
+    color:  #ccc;
+}
+
+.card {
+    margin: 3%;
+}
+
+.header-row {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.header-line {
+  width: 100%;
+  margin: 3%;
+  padding: 0;
+}
